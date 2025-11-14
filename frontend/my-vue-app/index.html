@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banking Payment App</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+
+    <!-- Inline Styles -->
+    <style>
+      /* CSS Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Body Styling */
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      /* App Container */
+      #app {
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        background: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      /* Header Styling */
+      h1 {
+        color: #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Payment Links */
+      .payment-links {
+        margin-top: 20px;
+      }
+
+      .payment-links a {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+
+      .payment-links a:hover {
+        background-color: #0056b3;
+      }
+    </style>
+
+    <!-- Main Script -->
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Welcome to the Banking Payment App</h1>
+      <p>Select a payment method below:</p>
+      <div class="payment-links">
+        <a href="/payments/neft" id="neft-link">NEFT</a>
+        <a href="/payments/rtgs" id="rtgs-link">RTGS</a>
+        <a href="/payments/upi" id="upi-link">UPI</a>
+      </div>
+    </div>
+  </body>
+</html>
