@@ -1,11 +1,10 @@
-import { Router } from 'express';
-import PaymentsController from '../controllers/paymentsController';
+import { Router } from "express";
+import PaymentsController from "../controllers/paymentsController";
 
 const router = Router();
-const paymentsController = new PaymentsController();
+const controller = new PaymentsController();
 
-router.get('/history', paymentsController.getPaymentHistory.bind(paymentsController));
+// GET /api/payments/:userId
+router.get("/:userId", controller.getPaymentHistory.bind(controller));
 
-export default function setRoutes(app: any) {
-    app.use('/api/payments', router);
-}
+export default router;

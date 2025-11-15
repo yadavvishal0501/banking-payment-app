@@ -1,18 +1,15 @@
 <template>
   <div class="login-container">
-    <h1>Login</h1>
+    <h2>Login</h2>
 
-    <form @submit.prevent="loginUser" class="login-form">
-      <label>Email</label>
-      <input type="email" v-model="email" required />
-
-      <label>Password</label>
-      <input type="password" v-model="password" required />
+    <form @submit.prevent="login">
+      <input v-model="email" type="email" placeholder="Email" required />
+      <input v-model="password" type="password" placeholder="Password" required />
 
       <button type="submit">Login</button>
     </form>
 
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
 
@@ -22,38 +19,35 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "LoginPage",
-
   setup() {
     const email = ref("");
     const password = ref("");
-    const errorMessage = ref("");
+    const error = ref("");
     const router = useRouter();
 
-   const loginUser = async () => {
+    const login = async () => {
   try {
-    const response = await axios.post("http://localhost:3000/api/auth/login", {
+    const res = await axios.post("http://localhost:3000/api/auth/login", {
       email: email.value,
-      password: password.value
+      password: password.value,
     });
 
-    alert("Login Successful!");
-    router.push("/");  
+    // Store user session
+    localStorage.setItem("userId", res.data.userId);
 
-  } catch (error) {
-    alert("Invalid Credentials");
+    router.push("/");
+  } catch (e) {
+    error.value = "Invalid credentials";
   }
 };
 
-    return {
-      email,
-      password,
-      errorMessage,
-      loginUser,
-    };
+    return { email, password, login, error };
+    console.log("Email:", email.value);
+
   },
 });
 </script>
+
 
 <style>
 .login-container {

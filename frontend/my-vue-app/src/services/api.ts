@@ -6,3 +6,5 @@ export const getPaymentHistory = async () => {
   const response = await axios.get(`${API_URL}/history`);
   return response.data;
 };
+
+

@@ -15,7 +15,6 @@
       </li>
     </ul>
 
-    <!-- Show table only if data exists -->
     <div v-if="paymentData.length > 0" class="payment-data">
       <h2>Payment Data</h2>
       <table>
@@ -27,7 +26,6 @@
             <th>Status</th>
           </tr>
         </thead>
-
         <tbody>
           <tr v-for="payment in paymentData" :key="payment.id">
             <td>{{ payment.id }}</td>
@@ -38,38 +36,40 @@
         </tbody>
       </table>
     </div>
+
+    <button @click="logout">Logout</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: "Homepage",
-
   setup() {
     const paymentData = ref([]);
+    const router = useRouter();
 
-    const fetchPaymentData = async () => {
-      try {
-        // Correct API endpoint
-        const response = await axios.get("http://localhost:3000/api/payments/history");
-        paymentData.value = response.data;
-      } catch (error) {
-        console.error("Error fetching payment data:", error);
-      }
+    const fetchPayments = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) return;
+
+      const res = await axios.get(`http://localhost:3000/api/payments/${userId}`);
+      paymentData.value = res.data;
     };
 
-    onMounted(() => {
-      fetchPaymentData();
-    });
+    const logout = () => {
+      localStorage.removeItem("userId");
+      router.push("/login");
+    };
 
-    return { paymentData };
-  }
+    onMounted(fetchPayments);
+
+    return { paymentData, logout };
+  },
 });
 </script>
-
 <style>
 #app {
   text-align: center;

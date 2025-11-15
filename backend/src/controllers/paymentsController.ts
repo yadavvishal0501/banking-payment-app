@@ -1,12 +1,21 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export default class PaymentsController {
     async getPaymentHistory(req: Request, res: Response) {
-        const paymentHistory = [
-            { id: 1, amount: 1000, method: 'NEFT', status: 'Success' },
-            { id: 2, amount: 2000, method: 'RTGS', status: 'Pending' },
-            { id: 3, amount: 500, method: 'UPI', status: 'Failed' },
-        ];
-        res.json(paymentHistory);
+        try {
+            const userId = Number(req.params.userId);
+
+            const history = await prisma.payment.findMany({
+                where: { userId },
+            });
+
+            res.json(history);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Server error" });
+        }
     }
 }
